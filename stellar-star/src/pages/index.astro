@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const products = [
+	{ name: 'Cloud Skin Tint', category: 'Complexion', price: '$34', tone: 'tone-rose', detail: 'Sheer, dewy coverage' },
+	{ name: 'Lustre Balm', category: 'Lips', price: '$22', tone: 'tone-coral', detail: 'Soft color, glassy finish' },
+	{ name: 'Petal Flush', category: 'Cheeks', price: '$28', tone: 'tone-peach', detail: 'Cream blush in three shades' },
+	{ name: 'Quiet Glow Oil', category: 'Skincare', price: '$41', tone: 'tone-gold', detail: 'A slow morning ritual' },
+];
+---
+
+<Layout>
+	<header class="site-header">
+		<a class="wordmark" href="/" aria-label="morrow home">morrow<span>.</span></a>
+		<nav aria-label="Main navigation"><a href="#shop">Shop</a><a href="#rituals">Rituals</a><a href="#journal">Journal</a></nav>
+		<button class="bag" type="button" aria-label="Shopping bag">Bag <span>0</span></button>
+	</header>
+
+	<main>
+		<section class="hero">
+			<div class="hero-copy"><p class="eyebrow">A softer way to get ready</p><h1>Make room<br /><em>for your glow.</em></h1><p class="intro">Thoughtful color and skin-loving essentials for the rituals that make an ordinary day feel like yours.</p><a class="button" href="#shop">Explore the edit <span aria-hidden="true">↗</span></a></div>
+			<div class="hero-art" aria-label="A still life of a cosmetic jar and flower" role="img"><div class="sun"></div><div class="jar"><div class="jar-lid"></div><div class="jar-body">morrow</div></div><div class="stem stem-one"></div><div class="stem stem-two"></div><div class="petal petal-one"></div><div class="petal petal-two"></div><p class="art-caption">01 / everyday essentials</p></div>
+		</section>
+
+		<section class="shop-section" id="shop"><div class="section-heading"><div><p class="eyebrow">The edit</p><h2>Small luxuries,<br /><em>well considered.</em></h2></div><p class="section-note">Clean formulas, easy shades,<br />and a little more time for you.</p></div><div class="filters" aria-label="Product categories"><button class="filter active" type="button" data-filter="All">All</button><button class="filter" type="button" data-filter="Complexion">Complexion</button><button class="filter" type="button" data-filter="Lips">Lips</button><button class="filter" type="button" data-filter="Cheeks">Cheeks</button><button class="filter" type="button" data-filter="Skincare">Skincare</button></div><div class="product-grid">{products.map((product) => (<article class={`product ${product.tone}`} data-category={product.category}><div class="product-visual"><span class="product-mark">m.</span><button type="button" aria-label={`Add ${product.name} to favorites`}>♡</button></div><div class="product-info"><div><h3>{product.name}</h3><p>{product.detail}</p></div><strong>{product.price}</strong></div></article>))}</div></section>
+
+		<section class="ritual-banner" id="rituals"><p class="eyebrow">Your five-minute ritual</p><h2>Begin with skin.<br /><em>Finish with color.</em></h2><a href="#shop" class="text-link">Build your edit <span>↗</span></a></section>
+	</main>
+	<footer id="journal"><span>morrow / beauty for now</span><span>Made for slow mornings and late nights.</span></footer>
+</Layout>
+
+<script>
+	const filters = document.querySelectorAll<HTMLButtonElement>('.filter');
+	const cards = document.querySelectorAll<HTMLElement>('.product');
+	filters.forEach((filter) => filter.addEventListener('click', () => {
+		filters.forEach((item) => item.classList.remove('active'));
+		filter.classList.add('active');
+		const category = filter.dataset.filter;
+		cards.forEach((card) => { card.hidden = category !== 'All' && card.dataset.category !== category; });
+	}));
+</script>
+
+<style>
+	:global(body) { background: #f5f0e9; color: #25211e; font-family: Georgia, 'Times New Roman', serif; }
+	:global(*) { box-sizing: border-box; }
+	.site-header { align-items: center; display: flex; justify-content: space-between; max-width: 1280px; margin: auto; padding: 27px 5vw; }
+	.wordmark { color: #25211e; font-size: 28px; letter-spacing: 0.02em; text-decoration: none; } .wordmark span { color: #a9523f; }
+	nav { display: flex; gap: 34px; margin-left: 9%; } nav a, .bag { color: #625a54; font: 12px Arial, sans-serif; text-decoration: none; } nav a:hover, .bag:hover { color: #a9523f; }
+	.bag { background: none; border: 0; cursor: pointer; } .bag span { border: 1px solid #c9bfb5; border-radius: 50%; display: inline-grid; height: 20px; margin-left: 7px; place-items: center; width: 20px; }
+	.hero { display: grid; grid-template-columns: 0.9fr 1.1fr; margin: 20px auto 110px; max-width: 1280px; min-height: 570px; padding: 0 5vw; } .hero-copy { align-self: center; padding-bottom: 32px; }
+	.eyebrow { color: #a9523f; font: 10px Arial, sans-serif; letter-spacing: .16em; margin: 0 0 25px; text-transform: uppercase; } h1, h2 { font-size: clamp(52px, 7vw, 94px); font-weight: normal; letter-spacing: -.055em; line-height: .91; margin: 0; } em { color: #a9523f; font-style: italic; } .intro { color: #746b64; font: 15px/1.6 Arial, sans-serif; margin: 31px 0; max-width: 330px; } .button { background: #25211e; color: #fff; display: inline-flex; font: 11px Arial, sans-serif; gap: 28px; padding: 16px 19px; text-decoration: none; } .button:hover { background: #a9523f; }
+	.hero-art { background: #d7b8a5; min-height: 570px; overflow: hidden; position: relative; } .sun { background: #e9cda6; border-radius: 50%; height: 330px; position: absolute; right: 12%; top: 10%; width: 330px; } .jar { background: #e9e2d5; border-radius: 12px 12px 34px 34px; bottom: 11%; height: 230px; left: 31%; position: absolute; transform: rotate(-8deg); width: 225px; } .jar-lid { background: #c9b89d; border-radius: 10px; height: 34px; left: -6px; position: absolute; top: -25px; width: 237px; } .jar-body { align-items: center; color: #a9523f; display: flex; font: 18px Georgia, serif; height: 100%; justify-content: center; letter-spacing: .08em; } .stem { background: #656a4e; height: 370px; left: 73%; position: absolute; top: 16%; transform: rotate(26deg); width: 2px; } .stem-two { left: 68%; top: 26%; transform: rotate(-17deg); } .petal { background: #a9523f; border-radius: 100% 0 100% 0; height: 45px; left: 71%; position: absolute; top: 23%; transform: rotate(38deg); width: 22px; } .petal-two { left: 66%; top: 34%; transform: rotate(145deg); } .art-caption { bottom: 20px; color: #735f54; font: 10px Arial, sans-serif; left: 20px; letter-spacing: .13em; position: absolute; text-transform: uppercase; }
+	.shop-section { margin: auto; max-width: 1280px; padding: 0 5vw 110px; } .section-heading { align-items: end; display: flex; justify-content: space-between; } h2 { font-size: clamp(42px, 5vw, 66px); } .section-note { color: #746b64; font: 12px/1.6 Arial, sans-serif; margin: 0 5% 5px 0; } .filters { border-bottom: 1px solid #d5ccc3; display: flex; gap: 24px; margin: 52px 0 28px; padding-bottom: 13px; } .filter { background: none; border: 0; color: #968b82; cursor: pointer; font: 10px Arial, sans-serif; letter-spacing: .1em; padding: 0; text-transform: uppercase; } .filter.active, .filter:hover { color: #25211e; } .filter.active { border-bottom: 1px solid #a9523f; padding-bottom: 13px; margin-bottom: -14px; }
+	.product-grid { display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); } .product-visual { align-items: start; display: flex; height: 290px; justify-content: space-between; padding: 17px; } .product-visual button { background: none; border: 0; color: #6d625a; cursor: pointer; font-size: 22px; } .product-mark { align-items: center; background: rgba(255,255,255,.62); border-radius: 50%; color: #a9523f; display: flex; font-size: 14px; height: 43px; justify-content: center; width: 43px; } .tone-rose .product-visual { background: #d8b5aa; } .tone-coral .product-visual { background: #e7aa94; } .tone-peach .product-visual { background: #edc7a6; } .tone-gold .product-visual { background: #c5b88e; } .product-info { align-items: start; display: flex; justify-content: space-between; padding: 14px 0; } h3 { font-size: 16px; font-weight: normal; margin: 0 0 6px; } .product-info p, .product-info strong { color: #897e75; font: 11px Arial, sans-serif; margin: 0; } .product-info strong { color: #25211e; font-weight: normal; } .product[hidden] { display: none; }
+	.ritual-banner { background: #c7d0bc; padding: 100px 5vw; text-align: center; } .ritual-banner h2 { margin: auto; } .text-link { color: #25211e; display: inline-block; font: 11px Arial, sans-serif; margin-top: 30px; text-decoration: none; } .text-link span { color: #a9523f; margin-left: 20px; } footer { color: #897e75; display: flex; font: 10px Arial, sans-serif; justify-content: space-between; padding: 28px 5vw; }
+	@media (max-width: 700px) { nav { display: none; } .hero { display: block; margin-bottom: 75px; } .hero-copy { padding: 55px 0; } .hero-art { min-height: 400px; } .jar { bottom: 9%; height: 165px; left: 25%; width: 170px; } .jar-lid { width: 182px; } .product-grid { grid-template-columns: repeat(2, 1fr); } .product-visual { height: 190px; } .section-heading { display: block; } .section-note { margin-top: 23px; } .filters { gap: 13px; overflow-x: auto; } footer { display: block; line-height: 2; } }
+</style>
